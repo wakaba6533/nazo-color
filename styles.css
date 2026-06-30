@@ -1,0 +1,292 @@
+:root {
+  color-scheme: light;
+  --bg: #f4efe4;
+  --panel: rgba(255, 252, 245, 0.95);
+  --panel-strong: #ece3d1;
+  --text: #3f3527;
+  --muted: #7d715f;
+  --accent: #b8860b;
+  --accent-strong: #8b6914;
+  --border: rgba(80, 60, 30, 0.15);
+  --shadow: 0 12px 32px rgba(0,0,0,0.08);
+  --menu-bg: #ece3d1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+  background: radial-gradient(circle at top, #fff9ef 0%, var(--bg) 60%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+
+.page-shell {
+  min-height: 100vh;
+  padding: 1rem 1rem 3rem;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.6rem 0.2rem 1rem;
+}
+
+.menu-toggle {
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+}
+
+.hero {
+  display: grid;
+  gap: 1rem;
+  padding-top: 0.4rem;
+}
+
+.hero-copy,
+.hero-card,
+.info-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+.hero-copy {
+  padding: 1.3rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0 0 0.7rem;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+.hero-copy p,
+.hero-card p,
+.info-card p {
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.8rem 1.1rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: white;
+}
+
+.btn-secondary {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.feature-list li {
+  color: var(--text);
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.feature-list li::before {
+  content: "•";
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+}
+
+.hero-card {
+  padding: 1.2rem;
+}
+
+.card-stack {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.8rem;
+}
+
+.card {
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: var(--panel-strong);
+  border: 1px solid rgba(77, 163, 255, 0.2);
+  color: var(--text);
+}
+
+.info-section {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.info-card {
+  padding: 1.1rem 1.2rem;
+}
+
+.info-card p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.page-footer {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding-bottom: 0.4rem;
+}
+
+.page-start {
+  width: 100%;
+  max-width: 280px;
+  padding: 0.95rem 1.2rem;
+}
+
+.credit-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.slide-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: min(78vw, 280px);
+  height: 100vh;
+  background: var(--menu-bg);
+  border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  z-index: 40;
+  padding: 1.1rem;
+}
+
+.slide-menu.is-open {
+  transform: translateX(0);
+}
+
+.menu-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 2.2rem;
+  align-items: stretch;
+}
+
+.menu-panel a {
+  width: 100%;
+  text-align: left;
+  display: block;
+}
+
+.menu-panel a,
+.menu-close {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
+}
+
+.menu-close {
+  align-self: flex-end;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.menu-panel a:hover,
+.menu-close:hover {
+  border-color: rgba(77, 163, 255, 0.35);
+  background: rgba(77, 163, 255, 0.12);
+}
+
+.credit-text a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+
+.credit-text a:hover {
+  opacity: 0.8;
+}
+
+/* 表示方法 */
+@media (min-width: 500px) {
+  .page-shell {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}

@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>謎解きテスト</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="スマホ向けのダークテーマ謎解きサイトのトップページです。">
+  <title>なぞいろ | スマホ謎解き</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>なぞいろ</h1>
-    <p>開発中...</p>
-    <p>初めての謎解きサイトです。</p>
+  <div class="page-shell">
+    <header class="top-bar">
+      <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="slide-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <section class="info-section" aria-label="サイト情報">
+      <article id="rule" class="info-card">
+        <h2>RULE</h2>
+        <p>最後の謎に正解できればクリアです。</p>
+      </article>
+      <article id="help" class="info-card">
+        <h2>HOW TO PLAY</h2>
+        <p>キーボード入力で解答を直接打ち込んでください。</p>
+      </article>
+      <article id="recommend" class="info-card">
+        <h2>推奨環境</h2>
+        <p>スマートフォンでのプレイを推奨します。</p>
+      </article>
+    </section>
+
+    <div class="page-footer" id="credit">
+      <a class="btn btn-primary page-start" href="#rule">GAME START</a>
+      <p class="credit-text">
+        制作：
+        <a href="https://x.com/YuminDo6533" target="_blank" rel="noopener noreferrer">
+          若葉@
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <nav id="slide-menu" class="slide-menu" aria-label="サイトメニュー">
+    <div class="menu-panel">
+      <button class="menu-close" type="button" aria-label="メニューを閉じる">×</button>
+      <a href="#home">HOME</a>
+      <a href="#credit">CREDIT</a>
+      <a href="#help">HELP</a>
+    </div>
+  </nav>
+
+  <script src="script.js"></script>
 </body>
 </html>
