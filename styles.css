@@ -42,25 +42,40 @@ body {
 }
 
 .menu-toggle {
-  width: 46px;
-  height: 46px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.04);
-  display: grid;
-  place-items: center;
-  gap: 4px;
-  padding: 0;
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 5px;
+
+  background: transparent;
+  border: none;
+
+  box-shadow: none;
   cursor: pointer;
+
+  transition: background-color 0.2s ease;
 }
 
 .menu-toggle span {
-  display: block;
-  width: 18px;
+  width: 20px;
   height: 2px;
-  background: var(--text);
+
   border-radius: 999px;
+
+  background: var(--text);
+
   transition: transform 0.2s ease;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus-visible {
+  background: rgba(0,0,0,0.05);
+  border-radius: 50%;
 }
 
 .hero {
@@ -289,4 +304,137 @@ h2 {
     max-width: 500px;
     margin: 0 auto;
   }
+}
+
+/* 謎解き画面 */
+.puzzle-page {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 12rem;
+}
+
+.puzzle-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 1rem;
+}
+
+.puzzle-image {
+  position: relative;
+  flex-grow: 1;
+  min-height: 400px;
+  background: transparent;
+  border-radius: 0;
+  overflow: none;
+  box-shadow: none;
+}
+
+.puzzle-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.puzzle-image img.overlay {
+  z-index: 10;
+  pointer-events: none;
+}
+
+.puzzle-image img.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.puzzle-select {
+  margin: 1rem 0 0;
+  max-width: 360px;
+}
+
+.puzzle-select label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.puzzle-select-input {
+  width: 100%;
+  min-width: 180px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.puzzle-controls {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 20;
+  max-width: 360px;
+}
+
+.puzzle-input {
+  width: 220px;
+  min-width: 180px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.puzzle-input::placeholder {
+  color: var(--muted);
+}
+
+.puzzle-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+}
+
+.puzzle-submit {
+  padding: 0.75rem 1.2rem;
+  flex-shrink: 0;
+}
+
+.puzzle-result {
+  position: fixed;
+  bottom: 4.5rem;
+  right: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 100px;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.puzzle-result.success {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+.puzzle-result.error {
+  background: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+  border: 1px solid #F44336;
+}
+
+.puzzle-result.hidden {
+  opacity: 0;
+  pointer-events: none;
 }

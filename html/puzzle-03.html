@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ignore Colors - 3問目">
+  <title>Ignore Colors | 若葉@</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="page-shell puzzle-page">
+    <header class="top-bar">
+      <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="slide-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <main class="puzzle-container">
+      <div class="puzzle-image">
+        <img src="../images/2_back.png">
+        <img src="../images/2_blue.png" data-color-name="red">
+        <img src="../images/2_green.png" data-color-name="green">
+        <img src="../images/2_purple.png" data-color-name="purple">
+        <img src="../images/2_black.png" data-color-name="black">
+        <img src="../images/2_clear.png" class="overlay" alt="" aria-hidden="true" onerror="this.style.display='none'">
+      </div>
+
+      <div class="puzzle-select">
+        <select id="color-select" class="puzzle-select-input">
+          <option value="red">RED</option>
+          <option value="blue">BLUE</option>
+          <option value="green">GREEN</option>
+          <option value="pink">PINK</option>
+        </select>
+      </div>
+
+      <div class="puzzle-controls">
+        <input type="text" class="puzzle-input" id="answer-input" placeholder="答えを入力">
+        <button class="btn btn-primary puzzle-submit" type="button">Submit</button>
+      </div>
+
+      <div class="puzzle-result" id="puzzle-result"></div>
+    </main>
+  </div>
+
+  <nav id="slide-menu" class="slide-menu" aria-label="サイトメニュー">
+    <div class="menu-panel">
+      <button class="menu-close" type="button" aria-label="メニューを閉じる">×</button>
+      <a href="../index.html">HOME</a>
+      <a href="../index.html#credit">CREDIT</a>
+    </div>
+  </nav>
+
+  <script src="../js/menu.js"></script>
+  <script src="../js/puzzle-common.js"></script>
+  <script src="../js/puzzle-03.js"></script>
+</body>
+</html>
