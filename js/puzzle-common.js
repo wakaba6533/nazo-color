@@ -173,22 +173,39 @@ const initPuzzlePage = ({
     return;
   }
 
+  let processingOverlay = document.getElementById('puzzle-processing-overlay');
+  if (!processingOverlay) {
+    processingOverlay = document.createElement('div');
+    processingOverlay.id = 'puzzle-processing-overlay';
+    processingOverlay.className = 'puzzle-processing-overlay';
+    processingOverlay.innerHTML = '<div class="puzzle-processing-line"></div>';
+    document.body.appendChild(processingOverlay);
+  }
+
   const normalizeAnswer = (value) => {
     const raw = answerNormalizer ? answerNormalizer(value) : value.trim();
     return raw;
   };
   
-  const showResult = (text, type) => {
+  const showResult = (type) => {
     clearTimeout(resultTimer);
 
-    resultDisplay.textContent = text;
+    resultDisplay.innerHTML = '';
     resultDisplay.className = `puzzle-result ${type}`;
+    resultDisplay.classList.remove('hidden');
+    resultDisplay.classList.add('visible');
 
-    resultDisplay.classList.remove("hidden");
+    const icon = document.createElement('img');
+    const iconPath = window.location.pathname.includes('/html/') ? '../images/' : 'images/';
+    icon.src = type === 'success' ? `${iconPath}maru.png` : `${iconPath}batsu.png`;
+    icon.alt = type === 'success' ? '正解' : '不正解';
+    icon.className = 'puzzle-result-icon';
+    resultDisplay.appendChild(icon);
 
     resultTimer = setTimeout(() => {
-        resultDisplay.classList.add("hidden");
-    }, 3000);
+      resultDisplay.classList.remove('visible');
+      resultDisplay.classList.add('hidden');
+    }, 2000);
   };
 
   const resolveAnswerMatch = (answerValue, hiddenColors) => {
@@ -226,7 +243,7 @@ const initPuzzlePage = ({
     const colorMatch = !requiredColor || hiddenColors.includes(requiredColor);
 
     if (answerMatch && colorMatch) {
-      showResult('正解', 'success');
+      showResult('success');
       answerInput.disabled = true;
       submitButton.disabled = true;
 
@@ -239,28 +256,32 @@ const initPuzzlePage = ({
 
       setTimeout(() => {
         window.location.href = nextPage;
-      }, transitionDelay);
+      }, 2000);
     } else {
-      showResult('不正解', 'error');
+      showResult('error');
       setTimeout(() => {
         restoreColorLayers();
-      }, 500);
-      submitButton.disabled = false;
-      answerInput.disabled = false;
+        resultDisplay.classList.remove('visible');
+        resultDisplay.classList.add('hidden');
+        submitButton.disabled = false;
+        answerInput.disabled = false;
+      }, 2000);
     }
   };
 
   const submitHandler = () => {
     submitButton.disabled = true;
     answerInput.disabled = true;
+    processingOverlay.classList.add('is-visible');
 
     const answerValue = normalizeAnswer(answerInput.value).trim();
     const colorsToFade = resolveColorsToFade(answerValue);
     const didFade = fadeColorLayers(colorsToFade);
 
     setTimeout(() => {
+      processingOverlay.classList.remove('is-visible');
       evaluateAnswer(didFade ? colorsToFade : [], answerValue);
-    }, didFade ? 1000 : 0);
+    }, 1500);
   };
 
   submitButton.addEventListener('click', submitHandler);

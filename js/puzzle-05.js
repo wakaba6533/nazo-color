@@ -1,3 +1,11 @@
+const blackImage = document.querySelector('#puzzle-5-black');
+const puzzleState = JSON.parse(localStorage.getItem('nazo-color-state') || '{}');
+if (blackImage) {
+  blackImage.src = puzzleState.firstPuzzleRoute === 'riaou'
+    ? '../images/5_black_riaou.png'
+    : '../images/5_black.png';
+}
+
 initPuzzlePage({
   correctAnswer: 'おしどり',
   nextPage: 'clear_98q4hvu5bweiebvq98w75v.html',
@@ -12,15 +20,15 @@ initPuzzlePage({
     const menuOpen = !!context?.menuOpen;
     const firstPuzzleRoute = context?.firstPuzzleRoute;
 
-    if (answerValue === 'おしどり' && menuOpen && firstPuzzleRoute === 'makuake') {
+    if (menuOpen && firstPuzzleRoute === 'makuake') {
       return ['red', 'black'];
     }
 
-    if (answerValue === 'おしどり' && menuOpen) {
+    if (menuOpen && firstPuzzleRoute === 'riaou') {
       return ['red'];
     }
 
-    if (answerValue === 'おしどり' && firstPuzzleRoute === 'makuake') {
+    if (firstPuzzleRoute === 'makuake') {
       return ['black'];
     }
 
