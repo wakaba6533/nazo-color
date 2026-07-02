@@ -25,6 +25,29 @@ const COLOR_NAME_MAP = {
   purple: 'purple',
 };
 
+const PUZZLE_STATE_STORAGE_KEY = 'nazo-color-state';
+
+const getPuzzleState = () => {
+  try {
+    const raw = localStorage.getItem(PUZZLE_STATE_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (error) {
+    return {};
+  }
+};
+
+const savePuzzleState = (patch) => {
+  try {
+    const current = getPuzzleState();
+    const next = { ...current, ...patch };
+    localStorage.setItem(PUZZLE_STATE_STORAGE_KEY, JSON.stringify(next));
+  } catch (error) {
+    // Ignore storage errors.
+  }
+};
+
+const isMenuOpen = () => !!document.querySelector('.slide-menu.is-open');
+
 const normalizeColorName = (value) => {
   if (!value) {
     return null;
@@ -83,13 +106,17 @@ const getTextColorCandidates = () => {
   return [...new Set(candidates)];
 };
 
-const findLayerColorsToFade = () => {
-  const candidates = getTextColorCandidates();
+const findLayerColorsToFade = (colorNames) => {
   const images = Array.from(document.querySelectorAll('.puzzle-image img[data-color-name]:not(.fade-out)'));
   if (!images.length) {
     return [];
   }
 
+  if (Array.isArray(colorNames) && colorNames.length) {
+    return colorNames.filter((color) => images.some((img) => img.dataset.colorName === color));
+  }
+
+  const candidates = getTextColorCandidates();
   const availableColors = images.map((img) => img.dataset.colorName);
   const matchedColors = candidates.filter((color, index) => availableColors.includes(color) && candidates.indexOf(color) === index);
 
@@ -127,7 +154,16 @@ const restoreColorLayers = () => {
   });
 };
 
-const initPuzzlePage = ({ correctAnswer, nextPage, requiredColor, answerNormalizer, transitionDelay = 3000 }) => {
+const initPuzzlePage = ({
+  correctAnswer,
+  nextPage,
+  requiredColor,
+  answerNormalizer,
+  transitionDelay = 3000,
+  colorResolver,
+  answerMatcher,
+  onCorrectAnswer,
+}) => {
   const answerInput = document.querySelector('#answer-input');
   const submitButton = document.querySelector('.puzzle-submit');
   const resultDisplay = document.querySelector('#puzzle-result');
@@ -155,16 +191,52 @@ const initPuzzlePage = ({ correctAnswer, nextPage, requiredColor, answerNormaliz
     }, 3000);
   };
 
-  const evaluateAnswer = (hiddenColors) => {
-    const rawAnswer = normalizeAnswer(answerInput.value);
-    const userAnswer = rawAnswer.trim();
-    const answerMatch = userAnswer === correctAnswer;
+  const resolveAnswerMatch = (answerValue, hiddenColors) => {
+    if (typeof answerMatcher === 'function') {
+      return answerMatcher(answerValue, hiddenColors, {
+        menuOpen: isMenuOpen(),
+        firstPuzzleRoute: getPuzzleState().firstPuzzleRoute,
+      });
+    }
+
+    if (Array.isArray(correctAnswer)) {
+      return correctAnswer.includes(answerValue);
+    }
+
+    return answerValue === correctAnswer;
+  };
+
+  const resolveColorsToFade = (answerValue) => {
+    if (typeof colorResolver === 'function') {
+      const overrideColors = colorResolver(answerValue, {
+        menuOpen: isMenuOpen(),
+        firstPuzzleRoute: getPuzzleState().firstPuzzleRoute,
+      });
+
+      if (Array.isArray(overrideColors) && overrideColors.length) {
+        return findLayerColorsToFade(overrideColors);
+      }
+    }
+
+    return findLayerColorsToFade();
+  };
+
+  const evaluateAnswer = (hiddenColors, answerValue) => {
+    const answerMatch = resolveAnswerMatch(answerValue, hiddenColors);
     const colorMatch = !requiredColor || hiddenColors.includes(requiredColor);
 
     if (answerMatch && colorMatch) {
       showResult('正解', 'success');
       answerInput.disabled = true;
       submitButton.disabled = true;
+
+      if (typeof onCorrectAnswer === 'function') {
+        onCorrectAnswer(answerValue, {
+          menuOpen: isMenuOpen(),
+          firstPuzzleRoute: getPuzzleState().firstPuzzleRoute,
+        });
+      }
+
       setTimeout(() => {
         window.location.href = nextPage;
       }, transitionDelay);
@@ -182,11 +254,12 @@ const initPuzzlePage = ({ correctAnswer, nextPage, requiredColor, answerNormaliz
     submitButton.disabled = true;
     answerInput.disabled = true;
 
-    const colorsToFade = findLayerColorsToFade();
+    const answerValue = normalizeAnswer(answerInput.value).trim();
+    const colorsToFade = resolveColorsToFade(answerValue);
     const didFade = fadeColorLayers(colorsToFade);
 
     setTimeout(() => {
-      evaluateAnswer(didFade ? colorsToFade : []);
+      evaluateAnswer(didFade ? colorsToFade : [], answerValue);
     }, didFade ? 1000 : 0);
   };
 
