@@ -154,6 +154,37 @@ const restoreColorLayers = () => {
   });
 };
 
+const highlightRedInCredit = () => {
+  if (!isMenuOpen()) {
+    return;
+  }
+
+  // Find the CREDIT link in the menu
+  const creditLink = Array.from(document.querySelectorAll('.menu-panel a')).find(
+    (link) => link.textContent.trim() === 'CREDIT'
+  );
+
+  if (!creditLink) {
+    return;
+  }
+
+  // Replace "RED" with a highlighted version
+  const originalText = creditLink.textContent;
+  const regex = /RED/i;
+
+  if (regex.test(originalText)) {
+    creditLink.innerHTML = originalText.replace(
+      regex,
+      '<span class="credit-red-highlight">RED</span>'
+    );
+
+    // Remove highlight after 1.5 seconds
+    setTimeout(() => {
+      creditLink.textContent = originalText;
+    }, 1500);
+  }
+};
+
 const initPuzzlePage = ({
   correctAnswer,
   nextPage,
@@ -176,9 +207,6 @@ const initPuzzlePage = ({
   let processingOverlay = document.getElementById('puzzle-processing-overlay');
   if (!processingOverlay) {
     processingOverlay = document.createElement('div');
-    processingOverlay.id = 'puzzle-processing-overlay';
-    processingOverlay.className = 'puzzle-processing-overlay';
-    processingOverlay.innerHTML = '<div class="puzzle-processing-line"></div>';
     document.body.appendChild(processingOverlay);
   }
 
@@ -277,6 +305,8 @@ const initPuzzlePage = ({
     const answerValue = normalizeAnswer(answerInput.value).trim();
     const colorsToFade = resolveColorsToFade(answerValue);
     const didFade = fadeColorLayers(colorsToFade);
+
+    highlightRedInCredit();
 
     setTimeout(() => {
       processingOverlay.classList.remove('is-visible');
