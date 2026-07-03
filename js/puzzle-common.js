@@ -154,6 +154,93 @@ const restoreColorLayers = () => {
   });
 };
 
+const highlightColorNames = (colorNames) => {
+  if (!Array.isArray(colorNames) || !colorNames.length) {
+    return;
+  }
+
+  // Helper to determine color name and get corresponding CSS color
+  const getColorNameAndStyle = (text) => {
+    const normalized = (text || '').toLowerCase().replace(/[\s\u3000]/g, '').replace(/[.,。!?！?]/g, '');
+    for (const [key, value] of Object.entries(COLOR_NAME_MAP)) {
+      if (colorNames.includes(value) && normalized.includes(key.toLowerCase())) {
+        return { color: value, key };
+      }
+    }
+    return null;
+  };
+
+  // Highlight data-color-text elements (image areas)
+  document.querySelectorAll('[data-color-text]').forEach((element) => {
+    const colorText = element.dataset.colorText;
+    const match = getColorNameAndStyle(colorText);
+    if (match) {
+      element.classList.add('color-highlight-target');
+      element.style.setProperty('--highlight-color', `var(--color-${match.color})`);
+    }
+  });
+
+  // Highlight in select dropdowns
+  document.querySelectorAll('select').forEach((select) => {
+    const selectedOption = select.options[select.selectedIndex];
+    const optionText = selectedOption?.textContent || '';
+    const match = getColorNameAndStyle(optionText);
+    if (match) {
+      const span = document.createElement('span');
+      span.className = 'color-highlight';
+      span.style.color = `var(--color-${match.color})`;
+      span.style.display = 'inline-block';
+      span.style.marginLeft = '8px';
+      span.textContent = optionText;
+      select.parentNode.insertBefore(span, select.nextSibling);
+    }
+  });
+
+  // Highlight in answer input
+  const answerInput = document.querySelector('#answer-input');
+  if (answerInput && answerInput.value) {
+    const match = getColorNameAndStyle(answerInput.value);
+    if (match) {
+      const span = document.createElement('span');
+      span.className = 'color-highlight';
+      span.style.color = `var(--color-${match.color})`;
+      span.style.display = 'inline-block';
+      span.style.marginLeft = '8px';
+      span.textContent = answerInput.value;
+      answerInput.parentNode.insertBefore(span, answerInput.nextSibling);
+    }
+  }
+
+  // Highlight in menu links
+  document.querySelectorAll('.menu-panel a').forEach((link) => {
+    const linkText = link.textContent;
+    const match = getColorNameAndStyle(linkText);
+    if (match) {
+      const span = document.createElement('span');
+      span.className = 'color-highlight';
+      span.style.color = `var(--color-${match.color})`;
+      span.textContent = linkText;
+      link.replaceChildren(span);
+    }
+  });
+
+  // Schedule cleanup after 1.5 seconds
+  setTimeout(() => {
+    // Remove highlight class from data-color-text elements
+    document.querySelectorAll('.color-highlight-target').forEach((el) => {
+      el.classList.remove('color-highlight-target');
+      el.style.removeProperty('--highlight-color');
+    });
+
+    // Remove highlight spans
+    document.querySelectorAll('.color-highlight').forEach((el) => {
+      const parent = el.parentNode;
+      const textNode = document.createTextNode(el.textContent);
+      parent.replaceChild(textNode, el);
+    });
+  }, 1500);
+};
+
 const initPuzzlePage = ({
   correctAnswer,
   nextPage,
@@ -277,6 +364,10 @@ const initPuzzlePage = ({
     const answerValue = normalizeAnswer(answerInput.value).trim();
     const colorsToFade = resolveColorsToFade(answerValue);
     const didFade = fadeColorLayers(colorsToFade);
+    
+    if (didFade) {
+      highlightColorNames(colorsToFade);
+    }
 
     setTimeout(() => {
       processingOverlay.classList.remove('is-visible');
