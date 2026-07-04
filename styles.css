@@ -219,6 +219,18 @@ h2 {
   line-height: 1.7;
 }
 
+.rule-example-image {
+  margin-top: 0.8rem;
+}
+
+.rule-example-image img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
 .page-footer {
   margin-top: 1.2rem;
   display: flex;
