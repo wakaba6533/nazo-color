@@ -7,7 +7,7 @@ if (blackImage) {
 }
 
 const normalizeAnswer5 = (value) => {
-  const variants = ['オシドリ', 'おしどり', '鴛鴦'];
+  const variants = ['おしどり'];
   const normalized = value.toLowerCase().replace(/\s/g, '');
   if (variants.some(v => v.toLowerCase().replace(/\s/g, '') === normalized)) {
     return 'おしどり';
