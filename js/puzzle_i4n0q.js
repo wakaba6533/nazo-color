@@ -17,8 +17,8 @@ const normalizeAnswer5 = (value) => {
 
 initPuzzlePage({
   correctAnswer: 'おしどり',
-  nextPage: 'clear_98q4hvu5bweiebvq98w75v.html',
-  requiredColor: '',
+  nextPage: 'clear_vu5bw.html',
+  requirePuzzleState: true,
   answerNormalizer: normalizeAnswer5,
 
   answerMatcher: (answerValue, hiddenColors, context) => {

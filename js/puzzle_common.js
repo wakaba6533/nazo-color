@@ -276,7 +276,13 @@ const initPuzzlePage = ({
   colorResolver,
   answerMatcher,
   onCorrectAnswer,
+  requirePuzzleState = false,
 }) => {
+  if (requirePuzzleState && !getPuzzleState().firstPuzzleRoute) {
+    window.location.replace('../index.html');
+    return;
+  }
+
   const answerInput = document.querySelector('#answer-input');
   const submitButton = document.querySelector('.puzzle-submit');
   const resultDisplay = document.querySelector('#puzzle-result');

@@ -9,7 +9,8 @@ const normalizeAnswer2 = (value) => {
 
 initPuzzlePage({
   correctAnswer: 'ふろしき',
-  nextPage: 'puzzle-03.html',
+  nextPage: 'puzzle_ea92j.html',
+  requirePuzzleState: true,
   answerNormalizer: normalizeAnswer2,
 
   colorMatcher: () =>

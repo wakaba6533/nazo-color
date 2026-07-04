@@ -15,7 +15,8 @@ const normalizeAnswer1 = (value) => {
 
 initPuzzlePage({
   correctAnswer: ['まくあけ', 'りあおう'],
-  nextPage: 'puzzle-02.html',
+  nextPage: 'puzzle_c2k8c.html',
+  requirePuzzleState: false,
   answerNormalizer: normalizeAnswer1,
 
   answerMatcher: (answerValue) => {
