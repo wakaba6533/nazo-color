@@ -4,6 +4,7 @@
   --panel: rgba(255, 252, 245, 0.95);
   --panel-strong: #ece3d1;
   --text: #3f3527;
+  --text-soft: rgb(119, 100, 74);
   --muted: #7d715f;
   --accent: #b8860b;
   --accent-strong: #8b6914;
@@ -275,7 +276,7 @@ h2 {
 
 .menu-panel a,
 .menu-close {
-  color: var(--text);
+  color: var(--text-soft);
   text-decoration: none;
   padding: 0.8rem 0.9rem;
   border-radius: 12px;
@@ -503,7 +504,7 @@ h2 {
 
 .credit-red-highlight {
   font-weight: bold;
-  color: #000;
+  color: inherit;
 }
 
 .color-detection-message {
