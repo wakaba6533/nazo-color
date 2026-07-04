@@ -231,7 +231,7 @@ const highlightRedInCredit = () => {
   }
 };
 
-const showColorDetectionMessage = (colorNames) => {
+const showColorDetectionMessage = (colorNames, answerValue) => {
   if (!Array.isArray(colorNames) || !colorNames.length) {
     return;
   }
@@ -247,7 +247,16 @@ const showColorDetectionMessage = (colorNames) => {
   messageContainer.id = 'color-detection-message';
 
   // Build message text
-  const colorTexts = colorNames.map(color => COLOR_DISPLAY_MAP[color] || color).join('、');
+  const detectedColors = [...colorNames];
+  const normalizedAnswer = answerValue.toLowerCase();
+
+  Object.entries(COLOR_NAME_MAP).forEach(([word, color]) => {
+    if (normalizedAnswer.includes(word.toLowerCase()) && !detectedColors.includes(color)) {
+      detectedColors.push(color);
+    }
+  });
+
+  const colorTexts = detectedColors.map(color => COLOR_DISPLAY_MAP[color] || color).join('、');
   messageContainer.textContent = `${colorTexts} を検出しました`;
 
   // body直下に追加
@@ -434,9 +443,7 @@ const initPuzzlePage = ({
     const didFade = fadeColorLayers(colorsToFade);
 
     // Show detected colors
-    if (colorsToFade.length > 0) {
-      showColorDetectionMessage(colorsToFade);
-    }
+    showColorDetectionMessage(colorsToFade, answerValue);
 
     highlightRedInCredit();
 
