@@ -34,7 +34,7 @@ const COLOR_DISPLAY_MAP = {
   purple: '紫',
 };
 
-const PUZZLE_STATE_STORAGE_KEY = 'nazo-color-state';
+const PUZZLE_STATE_STORAGE_KEY = 'ignore-colors-state';
 
 const getPuzzleState = () => {
   try {

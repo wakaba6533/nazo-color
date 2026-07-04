@@ -4,7 +4,7 @@ function initMenu() {
   const slideMenu = document.querySelector('.slide-menu');
   const closeButton = document.querySelector('.menu-close');
   const menuPanel = document.querySelector('.menu-panel');
-  const puzzleStateKey = 'nazo-color-state';
+  const puzzleStateKey = 'ignore-colors-state';
   const currentPath = window.location.pathname;
   const isInHtmlFolder = currentPath.includes('/html/');
 

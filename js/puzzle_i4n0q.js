@@ -1,5 +1,5 @@
 const blackImage = document.querySelector('#puzzle-5-black');
-const puzzleState = JSON.parse(localStorage.getItem('nazo-color-state') || '{}');
+const puzzleState = JSON.parse(localStorage.getItem('ignore-colors-state') || '{}');
 if (blackImage) {
   blackImage.src = puzzleState.firstPuzzleRoute === 'riaou'
     ? '../images/5_black_riaou.png'
